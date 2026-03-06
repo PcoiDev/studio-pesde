@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3000;
 const PESDE_REGISTRY = "https://registry.pesde.daimond113.com";
 const WALLY_REGISTRY = "https://api.wally.run";
 const WALLY_HEADERS = { "Wally-Version": "0.3.2" };
-const TARGET = "roblox";
+const TARGET = "roblox"; 
 
 async function extractTar(buffer) {
 	const files = [];
