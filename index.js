@@ -10,7 +10,20 @@ const PORT = process.env.PORT || 3000;
 const PESDE_REGISTRY = "https://registry.pesde.daimond113.com";
 const WALLY_REGISTRY = "https://api.wally.run";
 const WALLY_HEADERS = { "Wally-Version": "0.3.2" };
-const TARGET = "roblox"; 
+const TARGET = "roblox";
+
+function getPublicBaseUrl(port) {
+	const railwayDomain = process.env.RAILWAY_PUBLIC_DOMAIN;
+	if (railwayDomain) return `https://${railwayDomain}`;
+
+	const staticUrl = process.env.RAILWAY_STATIC_URL;
+	if (staticUrl) {
+		const withProtocol = /^https?:\/\//i.test(staticUrl) ? staticUrl : `https://${staticUrl}`;
+		return withProtocol.replace(/\/$/, "");
+	}
+
+	return `http://localhost:${port}`;
+}
 
 async function extractTar(buffer) {
 	const files = [];
@@ -317,5 +330,6 @@ app.get("/wally/:scope/:name", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-	console.log(`pesde proxy running on port ${PORT}`);
+	const baseUrl = getPublicBaseUrl(PORT);
+	console.log(`Running on ${baseUrl}`);
 });
